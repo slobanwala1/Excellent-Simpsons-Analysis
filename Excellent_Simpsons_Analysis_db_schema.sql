@@ -17,49 +17,65 @@ DROP TABLE IF EXISTS Ratings CASCADE;
 
 DROP TABLE IF EXISTS Episode_Phrases CASCADE;
 
-CREATE TABLE titles (
-	title_id VARCHAR(30) NOT NULL,
-	title VARCHAR(50) NOT NULL,
- 	PRIMARY KEY(title_id)
+CREATE TABLE Season_Year (
+	Season_Number INT NOT NULL UNIQUE,
+	Season_Year_Aired INT NOT NULL UNIQUE, 
+ 	PRIMARY KEY(Season_Number)
 );
 
-CREATE TABLE employees (
-	emp_no INT NOT NULL,
-	emp_title_id VARCHAR(30) NOT NULL,
-	birth_data DATE NOT NULL,
-	first_name VARCHAR(50) NOT NULL,
-	last_name VARCHAR(50) NOT NULL,
-	sex CHAR(1) NOT NULL,
-	hire_date DATE NOT NULL,
-	PRIMARY KEY(emp_no),
-	FOREIGN KEY(emp_title_id) REFERENCES titles(title_id)
+CREATE TABLE All_Episodes (
+	Season_Number INT NOT NULL,
+	Episode_Number INTEGER NOT NULL,
+	Episode_Title VARCHAR(50),
+ 	PRIMARY KEY(Season_Number, Episode_Number),
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
 
-CREATE TABLE departments (
-	dept_no VARCHAR(30) NOT NULL,
-	dept_name VARCHAR(30) NOT NULL,
-	PRIMARY KEY(dept_no)
+CREATE TABLE Baby_Names_Popularity (
+	Season_Year_Aired INT NOT NULL,
+	Character_Name VARCHAR(30) NOT NULL,
+	Name_Rank INTEGER NOT NULL,
+	PRIMARY KEY(Season_Year_Aired, Character_Name),
+	FOREIGN KEY(Season_Year_Aired) REFERENCES Season_Year(Season_Year_Aired)
 );
 
-CREATE TABLE salaries (
-	emp_no INT NOT NULL,
-	salary INT NOT NULL,
-	PRIMARY KEY(emp_no),
-	FOREIGN KEY(emp_no) REFERENCES employees(emp_no)
+CREATE TABLE Guest_Stars_All (
+	Season_Number INT NOT NULL,
+	Guest_Star_Name VARCHAR(30) NOT NULL,
+	Episode_title VARCHAR(50) NOT NULL,
+	PRIMARY KEY(Season_Number),
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
 
-CREATE TABLE dept_emp (
-	emp_no INT NOT NULL,
-	dept_no VARCHAR(30) NOT NULL,
-	PRIMARY KEY(emp_no, dept_no),
-	FOREIGN KEY(emp_no) REFERENCES employees(emp_no),
-	FOREIGN KEY(dept_no) REFERENCES departments(dept_no)
+CREATE TABLE Guest_Star_Season (
+	Season_Number INT NOT NULL,
+	Count_of_Appearances INT NOT NULL,
+	PRIMARY KEY(Season_Number),
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
 
-CREATE TABLE dept_manager (
-	dept_no VARCHAR(30) NOT NULL,
-	emp_no INT NOT NULL,
-	PRIMARY KEY(dept_no, emp_no),
-	FOREIGN KEY(dept_no) REFERENCES departments(dept_no),
-	FOREIGN KEY(emp_no) REFERENCES employees(emp_no)
+CREATE TABLE Viewers (
+	Season_Number INT NOT NULL,
+	Number_of_Episodes INT NOT NULL,
+	Average_Ep_Viewers_in_mil FLOAT NOT NULL,
+	Most_Watched_Ep_Viewer_in_mil FLOAT NOT NULL,
+	Episode_Title VARCHAR(50),
+	PRIMARY KEY(Season_Number),
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
+);
+
+CREATE TABLE Ratings (
+	Season_Number INT NOT NULL,
+	Number_of_Episodes INT NOT NULL,
+	Season_Rank INT NOT NULL,
+	Rating VARCHAR(5),
+	PRIMARY KEY(Season_Number),
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
+);
+
+CREATE TABLE Episode_Phrases (
+	Season_Number INT NOT NULL,
+	Episode_Number INT NOT NULL,
+	Most_common_phrase VARCHAR(50) NOT NULL,
+	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
