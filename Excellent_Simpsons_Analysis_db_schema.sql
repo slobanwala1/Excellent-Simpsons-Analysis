@@ -68,7 +68,7 @@ CREATE TABLE Ratings (
 	Season_Number INT NOT NULL,
 	Number_of_Episodes INT NOT NULL,
 	Season_Rank INT NOT NULL,
-	Rating VARCHAR(5),
+	Rating FLOAT NOT NULL,
 	PRIMARY KEY(Season_Number),
 	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );

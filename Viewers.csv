@@ -16,7 +16,7 @@ Season_Number,Number_of_Episodes,Average_Ep_Viewers_in_mil,Most_Watched_Ep_Viewe
 15,22,11.0,16.3,"""I, (Annoyed Grunt)-Bot"""
 16,21,10.2,23.07,"""Homer and Ned's Hail Mary Pass"""
 17,22,9.55,11.63,"""Treehouse of Horror XVI"""
-18,22,9.15,13.90,"""The Wife Aquatic"""
+18,22,9.15,13.9,"""The Wife Aquatic"""
 19,20,8.37,11.7,"""Treehouse of Horror XVIII"""
 20,21,7.1,12.4,"""Treehouse of Horror XIX"""
 21,23,7.1,14.62,"""Once Upon a Time in Springfield"""
@@ -28,6 +28,6 @@ Season_Number,Number_of_Episodes,Average_Ep_Viewers_in_mil,Most_Watched_Ep_Viewe
 27,22,4.0,8.33,"""Teenage Mutant Milk-Caused Hurdles"""
 28,22,4.8,8.19,"""Pork and Burns"""
 29,21,4.07,8.04,"""Frink Gets Testy"""
-30,23,3.1,8.20,"""The Girl on the Bus"""
+30,23,3.1,8.2,"""The Girl on the Bus"""
 31,22,2.58,5.63,"""Go Big or Go Homer"""
-32,0,0.0,0,0
+32,0,0.0,0.0,0
