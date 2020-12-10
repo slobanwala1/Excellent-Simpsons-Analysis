@@ -1,9 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 from collections import Counter
+import csv
+import pandas
 
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
+
+excluded_words = ["♪", "_", "GASPS", "(", "["]
+selected_phrase = "D'oh"
 
 class Colors:
     MAGENTA = '\033[95m'
@@ -17,6 +22,12 @@ class Colors:
     BOLD = '\033[1m'
     END = '\033[0m'
 
+
+def listToString(s):
+    str1 = ""
+
+    # return string
+    return (str1.join(s))
 
 seasons = {"season_1": range(21861, 21874),
            "season_2": range(21874, 21896),
@@ -52,34 +63,71 @@ seasons = {"season_1": range(21861, 21874),
            }
 
 
-episode_number = 25
-season_selected = "season_31"
-print(f"{Colors.MAGENTA}Season: {season_selected[7:]}{Colors.END}")
-season_transcript = []
+season_number = 0
+show_transcript = []
 
-excluded_words = ["♪", "_", "GASPS", "(", "["]
 excluded_flag = 0
 
-for episode in seasons[season_selected]:
-    url = f"https://transcripts.foreverdreaming.org/viewtopic.php?f=431&t={episode}"
-    page = requests.get(url, headers=headers)
-    soup = BeautifulSoup(page.content, 'html.parser')
-    line = soup.find_all('p')
-    episode_transcript = []
-    for result in line[1:-3]:
-        for i in excluded_words:
-            if i not in result.text:
-                excluded_flag += 1
-        if excluded_flag == len(excluded_words):
-            episode_transcript.append(result.text)
-            season_transcript.append(result.text)
-        excluded_flag = 0
+ALL_SEASONS = []
+ALL_EPISODES = []
+ALL_COMMON_PHRASES = []
 
-    episode_number += 1
-    counter = Counter(episode_transcript)
-    print(f"{Colors.LIGHT_GREEN} {episode_number} most common phrase: {Colors.END}")
+
+for season in seasons:
+    episode_number = 0
+    season_number += 1
+    season_transcript = []
+    print(f"{Colors.MAGENTA}Season: {season_number}{Colors.END}")
+
+    for episode in seasons[season]:
+        ALL_SEASONS.append(season_number)
+        url = f"https://transcripts.foreverdreaming.org/viewtopic.php?f=431&t={episode}"
+        page = requests.get(url, headers=headers)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        line = soup.find_all('p')
+        episode_transcript = []
+        for result in line[1:-3]:
+            for i in excluded_words:
+                if i not in result.text:
+                    excluded_flag += 1
+            if excluded_flag == len(excluded_words):
+                episode_transcript.append(result.text)
+                season_transcript.append(result.text)
+            excluded_flag = 0
+
+        episode_number += 1
+        counter = Counter(episode_transcript)
+        print(f"{Colors.LIGHT_GREEN}Episode {episode_number} most common phrase: {Colors.END}")
+        ALL_EPISODES.append(episode_number)
+        most_common_phrase = counter.most_common(1)
+        print(most_common_phrase)
+        ALL_COMMON_PHRASES.append(most_common_phrase)
+
+    counter = Counter(season_transcript)
+    print(f"{Colors.LIGHT_BLUE}Season {season_number} most common phrase: {Colors.END}")
     print(counter.most_common(1))
 
-counter = Counter(season_transcript)
-print(f"{Colors.LIGHT_BLUE}Season {season_selected} most common phrase: {Colors.END}")
-print(counter.most_common(1))
+    season_transcript = listToString(season_transcript)
+    show_transcript.append(season_transcript)
+
+show_transcript = listToString(show_transcript)
+count = show_transcript.count(selected_phrase)
+
+print(f"{Colors.BLUE}The most common phrase in all of the Simpsons is: {Counter(show_transcript).most_common(1)}")
+
+print(f"Also, there are {count} instances of {selected_phrase} in the all of the Simpsons{Colors.END}")
+
+
+phrase = []
+occurences = []
+
+for i in ALL_COMMON_PHRASES:
+    phrase.append(i[0][0])
+    occurences.append(i[0][1])
+
+
+df = pandas.DataFrame({'Season Number': ALL_SEASONS,
+                       'Episode Number': ALL_EPISODES,
+                       'Most Common Phrase': phrase,
+                       'Occurrences': occurences})
+df.to_csv('shows.csv', index=False)
