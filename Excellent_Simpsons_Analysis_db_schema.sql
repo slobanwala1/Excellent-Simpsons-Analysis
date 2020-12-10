@@ -23,6 +23,7 @@ CREATE TABLE Season_Year (
  	PRIMARY KEY(Season_Number)
 );
 
+-- Did not get clean data for all episodes and titles
 CREATE TABLE All_Episodes (
 	Season_Number INT NOT NULL,
 	Episode_Number INTEGER NOT NULL,
@@ -33,17 +34,17 @@ CREATE TABLE All_Episodes (
 
 CREATE TABLE Baby_Names_Popularity (
 	Season_Year_Aired INT NOT NULL,
-	Character_Name VARCHAR(30) NOT NULL,
 	Name_Rank INTEGER NOT NULL,
+	Character_Name VARCHAR(150) NOT NULL,
 	PRIMARY KEY(Season_Year_Aired, Character_Name),
 	FOREIGN KEY(Season_Year_Aired) REFERENCES Season_Year(Season_Year_Aired)
 );
 
 CREATE TABLE Guest_Stars_All (
 	Season_Number INT NOT NULL,
-	Guest_Star_Name VARCHAR(30) NOT NULL,
-	Episode_title VARCHAR(50) NOT NULL,
-	PRIMARY KEY(Season_Number),
+	Guest_Star_Name VARCHAR(150) NOT NULL,
+	Episode_title VARCHAR(150) NOT NULL,
+	PRIMARY KEY(Guest_Star_Name, Episode_title),
 	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
 
@@ -59,7 +60,7 @@ CREATE TABLE Viewers (
 	Number_of_Episodes INT NOT NULL,
 	Average_Ep_Viewers_in_mil FLOAT NOT NULL,
 	Most_Watched_Ep_Viewer_in_mil FLOAT NOT NULL,
-	Episode_Title VARCHAR(50),
+	Episode_Title VARCHAR(150),
 	PRIMARY KEY(Season_Number),
 	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
@@ -76,6 +77,7 @@ CREATE TABLE Ratings (
 CREATE TABLE Episode_Phrases (
 	Season_Number INT NOT NULL,
 	Episode_Number INT NOT NULL,
-	Most_common_phrase VARCHAR(50) NOT NULL,
+	Most_common_phrase VARCHAR(150) NOT NULL,
+	Occurences INT NOT NULL,
 	FOREIGN KEY(Season_Number) REFERENCES Season_Year(Season_Number)
 );
