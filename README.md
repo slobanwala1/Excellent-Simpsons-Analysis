@@ -95,3 +95,12 @@ Season_Number INTEGER FK >- Season_Year.Season_Number
 Episode_Number INTEGER FK >- All_Episodes.Episode_Number
 Most_common_phrase VARCHAR(50)
 
+
+
+To continue with the analysis -- we could go further into the data to look at how sales of Simpsons paraphernalia have changed over time and also look at the sales of Butterfingers. Which was pretty closely associated with the show.
+
+With more time, we could do so much more with this data. We could create an app that would allow you to type in a celebrity’s name and see if they have appeared on The Simpsons. 
+
+We could create another app that allows you to look up Simpsons quotes and how many times they’ve been uttered.
+We could also create an app that allows you to look up how popular your name was when the Simpsons first aired.
+We could also do a Simpsons random quote generator since we have all of the show’s scripts.
