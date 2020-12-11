@@ -1,4 +1,4 @@
-![Simpsons Image](https://files.slack.com/files-pri/T01A3845EPK-F01GGJSFYUD/image.png)
+![Simpsons Image](https://i.imgflip.com/1vx5tl.jpg)
 
 
 Final Report:
